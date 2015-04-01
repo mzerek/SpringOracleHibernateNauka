@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,7 +53,13 @@ public class EmployeeDaoImpl implements EmployeeDao, Serializable {
 		List<Employee> employees = new ArrayList<Employee>();
 		
 		try {
-			employees = sessionFactory.getCurrentSession().createQuery("FROM Employee").list();
+		
+			Criteria c = sessionFactory.openSession().createCriteria(Employee.class, "employee");
+//			/c.createAlias("employee.department", "department");
+			
+			c.setMaxResults(5);
+			employees = c.list();			
+		
 			return employees;
 		} catch (Exception e) {
 			e.printStackTrace();

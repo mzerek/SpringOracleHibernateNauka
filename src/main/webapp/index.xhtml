@@ -15,10 +15,29 @@
 		<p:dataList value="#{employeeBean.employees}" var="employee"
 			type="ordered">
 			<f:facet name="header">
-            Basic
+            Tebla danych
        		 </f:facet>
-        #{employee.firstName}, #{employee.lastName}
+        #{employee.firstName}, #{employee.lastName}, #{employee.department.departmentName}
     </p:dataList>
+    
+    <br />
+    <br />
+
+		<p:dataTable var="employee" value="#{employeeBean.employees}">
+			<p:column headerText="Imię">
+				<h:outputText value="#{employee.firstName}" />
+			</p:column>
+
+			<p:column headerText="Nazwisko">
+				<h:outputText value="#{employee.lastName}" />
+			</p:column>
+
+			<p:column headerText="Dział">
+				<h:outputText value="#{employee.department.departmentName}" />
+			</p:column>
+
+		</p:dataTable>
+
 	</h:form>
 
 
