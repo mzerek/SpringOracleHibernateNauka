@@ -9,8 +9,17 @@
 	<title>Oracle Hibernate Nauka Title</title>
 </h:head>
 <h:body>
-	<h2>Oracle Hibernate Nauka Body</h2>
 
+	<h2>Oracle Hibernate Nauka Body</h2>
+	<h:form id="form">
+		<p:dataList value="#{employeeBean.employees}" var="employee"
+			type="ordered">
+			<f:facet name="header">
+            Basic
+       		 </f:facet>
+        #{employee.firstName}, #{employee.lastName}
+    </p:dataList>
+	</h:form>
 
 
 </h:body>
