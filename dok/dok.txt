@@ -1,0 +1,3 @@
+http://stackoverflow.com/questions/9007009/is-there-an-issue-with-the-oracle-dependency
+
+http://www.mkyong.com/hibernate/maven-3-hibernate-3-6-oracle-11g-example-xml-mapping/
