@@ -48,6 +48,8 @@ public class EmployeeBean implements Serializable {
 	
 
 	public List<Employee> getEmployees() {
+		
+		employeeService.callProcedure("Peter");
 		return employeeService.findAllEmployees();
 	}
 

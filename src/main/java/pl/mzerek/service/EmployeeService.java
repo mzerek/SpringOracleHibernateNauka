@@ -10,4 +10,6 @@ public interface EmployeeService {
 	public boolean addEmployee(Employee emp);
 	
 	public List<Employee> findAllEmployees();
+	
+	public <T> List<Employee> callProcedure(String imie);
 }

@@ -32,6 +32,12 @@ public class EmployeeServiceImpl implements EmployeeService, Serializable {
 	public List<Employee> findAllEmployees() {
 		return empDao.findAllEmployees();
 	}
+
+	@Override
+	public <T> List<Employee> callProcedure(String imie) {
+		List<Employee> employees =  empDao.callProcedure(imie);
+		return employees;
+	}
 	
 	
 

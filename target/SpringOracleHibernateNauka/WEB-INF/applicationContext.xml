@@ -32,10 +32,18 @@
 				<prop key="hibernate.show_show_sql">true</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 				<prop key="hibernate.default_schema">hr</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>				
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>				
 			</props>
 		</property>
 	</bean>
+	
+	<!--  key="hibernate.hbm2ddl.auto"
+    validate: validate the schema, makes no changes to the database.
+    update: update the schema.
+    create: creates the schema, destroying previous data.
+    create-drop: drop the schema at the end of the session.
+    -->
+	
 	
 	<!-- Enable the configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
