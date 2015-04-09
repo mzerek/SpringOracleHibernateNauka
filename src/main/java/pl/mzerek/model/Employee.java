@@ -1,12 +1,22 @@
 package pl.mzerek.model;
 
 import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -14,8 +24,9 @@ import java.util.List;
  * 
  */
 @Entity
+@javax.persistence.NamedNativeQuery(name = "getProc", query = "{ call get_employees_by_name(?,:imie) }", resultClass = Employee.class, hints = {
+@javax.persistence.QueryHint(name = "org.hibernate.callable", value = "true") })
 @Table(name="EMPLOYEES")
-@NamedQuery(name="Employee.findAll", query="SELECT e FROM Employee e")
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 

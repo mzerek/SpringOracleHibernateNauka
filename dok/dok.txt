@@ -1,3 +1,6 @@
+http://docs.spring.io/spring-data/jdbc/docs/current/reference/html/orcl.datasource.html
+
+
 http://stackoverflow.com/questions/9007009/is-there-an-issue-with-the-oracle-dependency
 
 http://www.mkyong.com/hibernate/maven-3-hibernate-3-6-oracle-11g-example-xml-mapping/
@@ -5,3 +8,8 @@ http://www.mkyong.com/hibernate/maven-3-hibernate-3-6-oracle-11g-example-xml-map
 http://stackoverflow.com/questions/20347931/hibernate-calling-stored-procedure-returns-cursor
 http://oracle-base.com/articles/misc/using-ref-cursors-to-return-recordsets.php
 https://justonedeveloper.wordpress.com/2013/05/29/convert-hibernate-session-to-jdbc-connection/
+
+http://www.programcreek.com/java-api-examples/index.php?api=org.hibernate.ScrollableResults
+
+
+http://stackoverflow.com/questions/2090033/why-jsf-calls-getters-multiple-times

@@ -1,6 +1,7 @@
 pl\mzerek\model\Location.class
 pl\mzerek\service\EmployeeServiceImpl.class
 pl\mzerek\model\Employee.class
+pl\mzerek\dao\EmployeeDaoImpl$2.class
 pl\mzerek\service\EmployeeService.class
 pl\mzerek\model\Department.class
 pl\mzerek\model\Samochod.class

@@ -3,6 +3,8 @@ package pl.mzerek.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +17,16 @@ public class EmployeeBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Employee employee = new Employee();
-	private List<Employee> employees;
+	private List<Employee> employees;	
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@PostConstruct
+	public void init(){
+		employees = employeeService.findAllEmployees();
+		employeeService.callProcedure("Peter");
+	}
 
 	private Employee emp1;
 	private Employee emp2;
@@ -47,10 +55,8 @@ public class EmployeeBean implements Serializable {
 	}
 	
 
-	public List<Employee> getEmployees() {
-		
-		employeeService.callProcedure("Peter");
-		return employeeService.findAllEmployees();
+	public List<Employee> getEmployees() {	
+		return employees;
 	}
 
 }

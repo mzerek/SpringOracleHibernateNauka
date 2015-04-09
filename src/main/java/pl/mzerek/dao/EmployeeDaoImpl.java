@@ -10,9 +10,11 @@ import java.util.List;
 
 import oracle.jdbc.OracleTypes;
 import oracle.jdbc.driver.OracleCallableStatement;
+import oracle.jdbc.driver.OracleResultSet;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.jdbc.ReturningWork;
@@ -83,15 +85,15 @@ public class EmployeeDaoImpl implements EmployeeDao, Serializable {
 	private List<Employee> execProcedure(final String imie) {
 		List<Employee> list = new ArrayList<>();
 
-		list =  sessionFactory.openSession().doReturningWork(
+		list = sessionFactory.openSession().doReturningWork(
 				new ReturningWork<List<Employee>>() {
 
 					@Override
 					public List<Employee> execute(Connection aConnection)
 							throws SQLException {
 						CallableStatement callstm = null;
-						
-//						/List<Employee> innerList =new ArrayList<Employee>();
+
+						// /List<Employee> innerList =new ArrayList<Employee>();
 						try {
 
 							String aProcedureName = "get_employees_by_name";
@@ -99,20 +101,19 @@ public class EmployeeDaoImpl implements EmployeeDao, Serializable {
 							String functionCall = "{call " + aProcedureName
 									+ "(?, ?)}";
 							callstm = aConnection.prepareCall(functionCall);
-							callstm.setString(1, imie);
-							System.out.println("=========imie to: " + imie); 
-							callstm.registerOutParameter(2, OracleTypes.CURSOR);
-							boolean b = callstm.execute();
-							System.out.println("=========callstm.execute: " + b); 
-							System.out.println("=========getUpdateCount: " + callstm.getUpdateCount()); 
-							ResultSet rs = (ResultSet) callstm.getObject(2);
-							int i = 0;
-							while(rs.next()){
-//								Employee s = (Employee) rs.getRow();
-//								System.out.println("=========rs to = " + s.getEmail()); 
-							}
+							callstm.registerOutParameter(1, OracleTypes.CURSOR);
+							callstm.setString(2, imie);	
+							boolean b = callstm.execute();						
+									
+							ResultSet rs = (ResultSet) callstm.getObject(1);
 							
-//							return (List<Employee>) callstm.getObject(2);
+							while (rs.next()) {
+								
+								System.out.println("=========rs to = " + rs.getString("FIRST_NAME") + " "+ rs.getString("LAST_NAME"));
+								
+							}
+
+							// return (List<Employee>) callstm.getObject(2);
 							return new ArrayList<Employee>();
 						} finally {
 							callstm.close();
@@ -122,77 +123,44 @@ public class EmployeeDaoImpl implements EmployeeDao, Serializable {
 		return list;
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private List<Employee> execProcedure2(final String imie) {
 		List<Employee> list = new ArrayList<>();
 		Session session = sessionFactory.getCurrentSession();
 		String aProcedureName = "get_employees_by_name";
+
+		List<Employee> result = new ArrayList<Employee>();
+
+		Query query = session.getNamedQuery("getProc");		
+		query.setParameter("imie", imie);
+
+		ScrollableResults resultSet = query.scroll();
+
 		
-		Query query = session.createSQLQuery("call get_employees_by_name(?,?)")
-				.addEntity(Employee.class)
-				.setParameter(0,  OracleTypes.CURSOR)
-				.setParameter(1, imie);
-				
+		 while (resultSet.next()){
+			 Object[] obj = resultSet.get();
+			 result.add((Employee) obj[0]);
+			
+		 }
+
 		
-		List employees = query.list();
+		for(Employee emp : result){
+			System.out.println("=========Query ScrollableResults = "
+					+ emp.getFirstName() + " " + emp.getLastName());
+		}
 		
-		
-		
-		return employees;
+
+		return result;
 	}
-	
-	@SuppressWarnings({ "unchecked", "unused" })
-	private List<Employee> execProcedure3(final String imie) {
-		List<Employee> list = new ArrayList<>();
 
-		list =  sessionFactory.openSession().doReturningWork(
-				new ReturningWork<List<Employee>>() {
 
-					@Override
-					public List<Employee> execute(Connection aConnection)
-							throws SQLException {
-						OracleCallableStatement callstm = null;
-						
-//						/List<Employee> innerList =new ArrayList<Employee>();
-						try {
 
-							String aProcedureName = "get_employees_by_name";
-
-							String functionCall = "{call " + aProcedureName
-									+ "(?, ?)}";
-							callstm = (OracleCallableStatement) aConnection.prepareCall(functionCall);
-							callstm.setString(1, imie);
-							System.out.println("=========imie to: " + imie); 
-							callstm.registerOutParameter(2, OracleTypes.CURSOR);
-							boolean b = callstm.execute();
-							System.out.println("=========callstm.execute: " + b); 
-							System.out.println("=========getUpdateCount: " + callstm.getUpdateCount()); 
-							ResultSet rs = (ResultSet) callstm.getObject(2);
-							int i = 0;
-							while(rs.next()){
-//								
-								System.out.println("=========rs to = " ); 
-							}
-							
-//							return (List<Employee>) callstm.getObject(2);
-							return new ArrayList<Employee>();
-						} finally {
-							callstm.close();
-						}
-					}
-				});
-		return list;
-
-	}
-	
-	
 	public <T> List<Employee> callProcedure(String imie) {
-		
+
 		//List<Employee> list = execProcedure(imie);
-		//List<Employee> list2 = execProcedure2(imie);
-		List<Employee> list3 = execProcedure3(imie);
-		
+		List<Employee> list2 = execProcedure2(imie);		
+
 		return new ArrayList<Employee>();
 	}
 }

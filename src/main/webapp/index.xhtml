@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Oracle Hibernate Nauka Title</title>
+	<title>Oracle Title</title>
 </h:head>
 <h:body>
 
@@ -19,10 +19,11 @@
        		 </f:facet>
         #{employee.firstName}, #{employee.lastName}, #{employee.department.departmentName}
     </p:dataList>
+    </h:form>
     
     <br />
     <br />
-
+	<h:form id="form">
 		<p:dataTable var="employee" value="#{employeeBean.employees}">
 			<p:column headerText="Imię">
 				<h:outputText value="#{employee.firstName}" />
